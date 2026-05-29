@@ -13,7 +13,9 @@ export default function EnquiryForm() {
   const [state, setState] = useState<FormState>("idle");
   const [systems, setSystems] = useState<string[]>([]);
   const [errorMsg, setErrorMsg] = useState("");
-  const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
+  const [scheduleFiles, setScheduleFiles] = useState<File[]>([]);
+  const [floorPlanFiles, setFloorPlanFiles] = useState<File[]>([]);
+  const [otherFiles, setOtherFiles] = useState<File[]>([]);
   const formRef = useRef<HTMLFormElement>(null);
 
   const toggleSystem = (s: string) =>
@@ -27,14 +29,19 @@ export default function EnquiryForm() {
 
     const form = e.currentTarget; // capture before async gap
 
-    // Step 1 — upload files directly to Blob (bypasses 4.5 MB server limit)
+    // Step 1 — upload all files directly to Blob (bypasses 4.5 MB server limit)
+    const allFiles = [
+      ...scheduleFiles.map((f) => ({ file: f, folder: "schedules" })),
+      ...floorPlanFiles.map((f) => ({ file: f, folder: "floor-plans" })),
+      ...otherFiles.map((f) => ({ file: f, folder: "other" })),
+    ];
     const fileUrls: string[] = [];
-    if (selectedFiles.length > 0) {
+    if (allFiles.length > 0) {
       setState("uploading");
       try {
-        for (const file of selectedFiles) {
+        for (const { file, folder } of allFiles) {
           const blob = await upload(
-            `enquiries/${Date.now()}-${file.name}`,
+            `enquiries/${folder}/${Date.now()}-${file.name}`,
             file,
             { access: "public", handleUploadUrl: "/api/upload" }
           );
@@ -51,7 +58,9 @@ export default function EnquiryForm() {
     setState("submitting");
     const fd = new FormData(form);
     fd.delete("systems");
-    fd.delete("files");
+    fd.delete("scheduleFiles");
+    fd.delete("floorPlanFiles");
+    fd.delete("otherFiles");
     systems.forEach((s) => fd.append("systems", s));
     fd.append("fileUrls", JSON.stringify(fileUrls));
 
@@ -64,7 +73,9 @@ export default function EnquiryForm() {
       setState("success");
       form.reset();
       setSystems([]);
-      setSelectedFiles([]);
+      setScheduleFiles([]);
+      setFloorPlanFiles([]);
+      setOtherFiles([]);
     } catch (err) {
       setState("error");
       setErrorMsg(err instanceof Error ? err.message : "Something went wrong. Please try again or call us.");
@@ -138,24 +149,33 @@ export default function EnquiryForm() {
 
       {/* File uploads */}
       <fieldset>
-        <legend className="label text-[#A9712F] mb-3">Documents (optional)</legend>
-        <p className="text-xs text-[#1F3D2E]/50 mb-3">
-          Floor plans, door &amp; window schedules, reference images — PDF, images, DOC, XLS accepted.
-        </p>
-        <input
-          name="files"
-          type="file"
-          multiple
-          accept=".pdf,.png,.jpg,.jpeg,.gif,.webp,.doc,.docx,.xls,.xlsx"
-          onChange={(e) => setSelectedFiles(Array.from(e.target.files ?? []))}
-          className="block w-full text-sm text-[#1F3D2E]/60 file:mr-4 file:py-2 file:px-4 file:border file:border-[#1F3D2E]/30 file:text-[0.65rem] file:tracking-[0.15em] file:uppercase file:bg-transparent file:text-[#1F3D2E]/60 file:cursor-pointer hover:file:border-[#1F3D2E]/60 transition-colors"
-        />
-        {selectedFiles.length > 0 && (
-          <p className="text-xs text-[#1F3D2E]/40 mt-2">
-            {selectedFiles.length} file{selectedFiles.length > 1 ? "s" : ""} selected
-            {state === "uploading" && " — uploading…"}
-          </p>
-        )}
+        <legend className="label text-[#A9712F] mb-5">Documents (optional)</legend>
+        <div className="space-y-5">
+          <FileField
+            label="Door & window schedule / drawing"
+            name="scheduleFiles"
+            hint="PDF, DWG, images accepted"
+            files={scheduleFiles}
+            onChange={setScheduleFiles}
+            uploading={state === "uploading"}
+          />
+          <FileField
+            label="Floor plans"
+            name="floorPlanFiles"
+            hint="PDF, DWG, images accepted"
+            files={floorPlanFiles}
+            onChange={setFloorPlanFiles}
+            uploading={state === "uploading"}
+          />
+          <FileField
+            label="Other documents"
+            name="otherFiles"
+            hint="Any additional references — images, DOC, XLS, PDF"
+            files={otherFiles}
+            onChange={setOtherFiles}
+            uploading={state === "uploading"}
+          />
+        </div>
       </fieldset>
 
       {/* Message */}
@@ -204,6 +224,34 @@ function Field({
         required={required}
         className="w-full border border-[#1F3D2E]/20 bg-transparent px-4 py-3 text-sm text-[#1F3D2E] placeholder:text-[#1F3D2E]/30 focus:outline-none focus:border-[#1F3D2E]/60 transition-colors"
       />
+    </div>
+  );
+}
+
+function FileField({
+  label, name, hint, files, onChange, uploading,
+}: {
+  label: string; name: string; hint: string;
+  files: File[]; onChange: (f: File[]) => void; uploading: boolean;
+}) {
+  return (
+    <div>
+      <p className="text-[0.65rem] tracking-[0.15em] uppercase text-[#1F3D2E]/70 mb-1">{label}</p>
+      <p className="text-xs text-[#1F3D2E]/40 mb-2">{hint}</p>
+      <input
+        name={name}
+        type="file"
+        multiple
+        accept=".pdf,.dwg,.png,.jpg,.jpeg,.gif,.webp,.doc,.docx,.xls,.xlsx"
+        onChange={(e) => onChange(Array.from(e.target.files ?? []))}
+        className="block w-full text-sm text-[#1F3D2E]/60 file:mr-4 file:py-2 file:px-4 file:border file:border-[#1F3D2E]/30 file:text-[0.65rem] file:tracking-[0.15em] file:uppercase file:bg-transparent file:text-[#1F3D2E]/60 file:cursor-pointer hover:file:border-[#1F3D2E]/60 transition-colors"
+      />
+      {files.length > 0 && (
+        <p className="text-xs text-[#1F3D2E]/40 mt-1">
+          {files.length} file{files.length > 1 ? "s" : ""} selected
+          {uploading && " — uploading…"}
+        </p>
+      )}
     </div>
   );
 }
