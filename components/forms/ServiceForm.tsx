@@ -1,21 +1,49 @@
 "use client";
 
 import { useState, useRef } from "react";
+import { upload } from "@vercel/blob/client";
 
 const PRODUCT_OPTIONS = ["Sliding", "Casement", "Grande Entry", "Slide & Fold", "Mixed / Not sure"];
-type FormState = "idle" | "submitting" | "success" | "error";
+type FormState = "idle" | "uploading" | "submitting" | "success" | "error";
 
 export default function ServiceForm() {
   const [state, setState] = useState<FormState>("idle");
   const [errorMsg, setErrorMsg] = useState("");
+  const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const formRef = useRef<HTMLFormElement>(null);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setState("submitting");
     setErrorMsg("");
 
-    const fd = new FormData(e.currentTarget);
+    const form = e.currentTarget; // capture before async gap
+
+    // Step 1 — upload files directly to Blob
+    const fileUrls: string[] = [];
+    if (selectedFiles.length > 0) {
+      setState("uploading");
+      try {
+        for (const file of selectedFiles) {
+          const blob = await upload(
+            `service/${Date.now()}-${file.name}`,
+            file,
+            { access: "public", handleUploadUrl: "/api/upload" }
+          );
+          fileUrls.push(blob.url);
+        }
+      } catch {
+        setState("error");
+        setErrorMsg("File upload failed. Please remove the files and try again, or call us directly.");
+        return;
+      }
+    }
+
+    // Step 2 — submit form data with URLs
+    setState("submitting");
+    const fd = new FormData(form);
+    fd.delete("files");
+    fd.append("fileUrls", JSON.stringify(fileUrls));
+
     try {
       const res = await fetch("/api/service", { method: "POST", body: fd });
       if (!res.ok) {
@@ -23,7 +51,8 @@ export default function ServiceForm() {
         throw new Error(data.error || "Submission failed");
       }
       setState("success");
-      formRef.current?.reset();
+      form.reset();
+      setSelectedFiles([]);
     } catch (err) {
       setState("error");
       setErrorMsg(err instanceof Error ? err.message : "Something went wrong. Please call 1800 309 0280.");
@@ -52,6 +81,8 @@ export default function ServiceForm() {
       </div>
     );
   }
+
+  const isWorking = state === "uploading" || state === "submitting";
 
   return (
     <form ref={formRef} onSubmit={handleSubmit} className="space-y-8" noValidate>
@@ -107,8 +138,15 @@ export default function ServiceForm() {
           type="file"
           multiple
           accept="image/*,video/*"
+          onChange={(e) => setSelectedFiles(Array.from(e.target.files ?? []))}
           className="block w-full text-sm text-[#1F3D2E]/60 file:mr-4 file:py-2 file:px-4 file:border file:border-[#1F3D2E]/30 file:text-[0.65rem] file:tracking-[0.15em] file:uppercase file:bg-transparent file:text-[#1F3D2E]/60 file:cursor-pointer hover:file:border-[#1F3D2E]/60 transition-colors"
         />
+        {selectedFiles.length > 0 && (
+          <p className="text-xs text-[#1F3D2E]/40 mt-2">
+            {selectedFiles.length} file{selectedFiles.length > 1 ? "s" : ""} selected
+            {state === "uploading" && " — uploading…"}
+          </p>
+        )}
       </fieldset>
 
       {errorMsg && (
@@ -117,10 +155,10 @@ export default function ServiceForm() {
 
       <button
         type="submit"
-        disabled={state === "submitting"}
+        disabled={isWorking}
         className="w-full bg-[#1F3D2E] text-[#F6F5F0] py-4 text-[0.7rem] tracking-[0.18em] uppercase hover:bg-[#2D6A4F] disabled:opacity-50 transition-colors"
       >
-        {state === "submitting" ? "Sending…" : "Submit service request"}
+        {state === "uploading" ? "Uploading files…" : state === "submitting" ? "Sending…" : "Submit service request"}
       </button>
     </form>
   );

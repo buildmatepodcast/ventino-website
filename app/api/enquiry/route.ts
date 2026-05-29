@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from "next/server";
-import { put } from "@vercel/blob";
 import { sendEmail } from "@/lib/email";
 import { sendWhatsApp } from "@/lib/whatsapp";
 
@@ -15,21 +14,11 @@ export async function POST(req: NextRequest) {
     const glass   = fd.get("glass") as string;
     const stage   = fd.get("stage") as string;
     const message = fd.get("message") as string;
-    const files   = fd.getAll("files") as File[];
+    const fileUrlsRaw = fd.get("fileUrls") as string | null;
+    const fileLinks: string[] = fileUrlsRaw ? JSON.parse(fileUrlsRaw) : [];
 
     if (!name || !phone || !email || !address) {
       return NextResponse.json({ error: "Required fields missing" }, { status: 400 });
-    }
-
-    // Upload files to Vercel Blob
-    const fileLinks: string[] = [];
-    for (const file of files) {
-      if (file.size === 0) continue;
-      const blob = await put(`enquiries/${Date.now()}-${file.name}`, file, {
-        access: "public",
-        token: process.env.BLOB_READ_WRITE_TOKEN,
-      });
-      fileLinks.push(blob.url);
     }
 
     const filesHtml = fileLinks.length
