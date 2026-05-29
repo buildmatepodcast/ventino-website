@@ -48,7 +48,7 @@ export default function Header() {
               alt="Ventino Doors & Windows"
               width={160}
               height={122}
-              className="h-12 md:h-14 w-auto"
+              className="h-14 md:h-16 w-auto"
               priority
             />
             <span className="hidden sm:block text-[0.6rem] font-light tracking-[0.35em] uppercase font-sans text-[#F6F5F0]/70">
