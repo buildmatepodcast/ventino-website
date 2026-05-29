@@ -1,26 +1,67 @@
 export interface Finish {
   name: string;
   hex: string;
-  range: "powder" | "anodised";
+  ral?: string;   // present on solid colours; absent on wood-effect shades
+  range: "powder-solid" | "powder-wood" | "anodised";
 }
 
-// Range I — The Elements (powder coating)
-export const powderCoatingFinishes: Finish[] = [
-  { name: "Ivory White",       hex: "#F5F2EA", range: "powder" },
-  { name: "Hipca White",       hex: "#EEE9DF", range: "powder" },
-  { name: "Grey Shadow",       hex: "#8E8E82", range: "powder" },
-  { name: "Mid Green",         hex: "#4A6B52", range: "powder" },
-  { name: "Light Cream",       hex: "#EDE3CA", range: "powder" },
-  { name: "Mid Cream",         hex: "#D9C89E", range: "powder" },
-  { name: "Smoke Grey",        hex: "#8C8C87", range: "powder" },
-  { name: "Midnight Grey",     hex: "#3A3A38", range: "powder" },
-  { name: "Chocolate Brown",   hex: "#4A2E1A", range: "powder" },
-  { name: "Warm Grey",         hex: "#A09B90", range: "powder" },
-  { name: "Green Grey",        hex: "#7A8C7E", range: "powder" },
-  { name: "Slate Grey",        hex: "#5E6360", range: "powder" },
+// ─── Powder Coating — Solid Colours ─────────────────────────────────────────
+// Source: Interpon Architectural RTS Color Card India
+// D1036 (Standard durability) + D2525 (Super durability) combined
+export const powderSolidFinishes: Finish[] = [
+  // Whites
+  { name: "Signal White",     hex: "#F4F4F4", ral: "RAL 9003", range: "powder-solid" },
+  { name: "Pure White",       hex: "#F8F6EF", ral: "RAL 9010", range: "powder-solid" },
+  { name: "Traffic White",    hex: "#F1F0EB", ral: "RAL 9016", range: "powder-solid" },
+
+  // Greys
+  { name: "Moss Grey",        hex: "#8B8C7A", ral: "RAL 7003", range: "powder-solid" },
+  { name: "Pebble Grey",      hex: "#B9B0A2", ral: "RAL 7032", range: "powder-solid" },
+  { name: "Light Grey",       hex: "#D7D7D7", ral: "RAL 7035", range: "powder-solid" },
+  { name: "Dusty Grey",       hex: "#7D7F7D", ral: "RAL 7037", range: "powder-solid" },
+  { name: "Quartz Grey",      hex: "#6C6960", ral: "RAL 7039", range: "powder-solid" },
+  { name: "Traffic Grey B",   hex: "#4E5452", ral: "RAL 7043", range: "powder-solid" },
+  { name: "Telegrey 1",       hex: "#909090", ral: "RAL 7045", range: "powder-solid" },
+  { name: "Umbra Grey",       hex: "#3E3A36", ral: "RAL 7022", range: "powder-solid" },
+
+  // Dark
+  { name: "Jet Black",        hex: "#0E0E10", ral: "RAL 9005", range: "powder-solid" },
+
+  // Metallic & Special
+  { name: "White Aluminium",  hex: "#A5A5A5", ral: "RAL 9006", range: "powder-solid" },
+  { name: "Grey Aluminium",   hex: "#8A8A80", ral: "RAL 9007", range: "powder-solid" },
+  { name: "Steel Bronze 1",   hex: "#8B6C52", range: "powder-solid" },
+  { name: "Bronze III",       hex: "#7B5C3E", range: "powder-solid" },
+  { name: "Splendor",         hex: "#C4A35A", range: "powder-solid" },
 ];
 
-// Range II — Urbane (anodising)
+// ─── Powder Coating — Wood Effect ────────────────────────────────────────────
+// Source: Interpon D STF Color Card (Sublimation Transfer Finish)
+// Names are exactly as printed under each shade card sample in the brochure
+export const woodFinishes: Finish[] = [
+  { name: "Western Red Cedar",  hex: "#8B3A2A", range: "powder-wood" },
+  { name: "Antique Cherry",     hex: "#7B2D2D", range: "powder-wood" },
+  { name: "Australian Cedar",   hex: "#9B5030", range: "powder-wood" },
+  { name: "Warm Cherry",        hex: "#8C3030", range: "powder-wood" },
+  { name: "Tiger Wood",         hex: "#C07840", range: "powder-wood" },
+  { name: "Dark Beige",         hex: "#C8A870", range: "powder-wood" },
+  { name: "Cinnamon Walnut",    hex: "#7B4828", range: "powder-wood" },
+  { name: "Antique Oak",        hex: "#A07848", range: "powder-wood" },
+  { name: "Chestnut",           hex: "#8B4513", range: "powder-wood" },
+  { name: "Walnut",             hex: "#5C3D1E", range: "powder-wood" },
+  { name: "Snow Drift",         hex: "#E8E0D0", range: "powder-wood" },
+  { name: "Pecan",              hex: "#C8904C", range: "powder-wood" },
+  { name: "Pine",               hex: "#C8A878", range: "powder-wood" },
+  { name: "Mahogany Brown",     hex: "#6B2D1E", range: "powder-wood" },
+  { name: "Modern Oak",         hex: "#9B7848", range: "powder-wood" },
+  { name: "Grey V2",            hex: "#8C8880", range: "powder-wood" },
+  { name: "Classic Grey",       hex: "#7A7870", range: "powder-wood" },
+  { name: "Merbau",             hex: "#5C3018", range: "powder-wood" },
+  { name: "Birch Grey",         hex: "#A8A098", range: "powder-wood" },
+  { name: "Natural Brown",      hex: "#8C6040", range: "powder-wood" },
+];
+
+// ─── Anodising ───────────────────────────────────────────────────────────────
 export const anodisedFinishes: Finish[] = [
   { name: "Anthracite Grey",   hex: "#3D3D3D", range: "anodised" },
   { name: "Ocean Blue",        hex: "#2B4A6A", range: "anodised" },
@@ -41,3 +82,6 @@ export const anodisedFinishes: Finish[] = [
   { name: "Anodic Bronze",     hex: "#A9712F", range: "anodised" },
   { name: "Dark Brown",        hex: "#3C2415", range: "anodised" },
 ];
+
+// legacy export kept for any existing imports
+export const powderCoatingFinishes = powderSolidFinishes;

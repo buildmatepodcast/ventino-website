@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import SectionLabel from "@/components/ui/SectionLabel";
 import { productSystems, performancePromises } from "@/data/products";
-import { powderCoatingFinishes, anodisedFinishes } from "@/data/finishes";
+import { powderSolidFinishes, woodFinishes, anodisedFinishes } from "@/data/finishes";
 
 export const metadata: Metadata = {
   title: "Products — Four Engineered Systems",
@@ -173,16 +173,34 @@ export default function ProductsPage() {
             The finish library.
           </h2>
           <p className="text-[#1F3D2E]/60 mb-16 max-w-xl">
-            Two ranges — powder coating and anodising — across the full Ventino palette. Custom RAL colours available on request for orders above 50 units.
+            Three ranges — solid powder coating, wood-effect sublimation transfer, and anodising — across the full Ventino palette. Custom RAL colours available on request for orders above 50 units.
           </p>
 
-          {/* Powder Coating */}
+          {/* Powder Coating — Solid Colours */}
           <div className="mb-16">
             <p className="label text-[#A9712F] mb-8">
-              Powder Coating — The Elements
+              Powder Coating — Solid Colours
             </p>
             <div className="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-6 gap-4">
-              {powderCoatingFinishes.map((f) => (
+              {powderSolidFinishes.map((f) => (
+                <div key={f.name} className="reveal">
+                  <div
+                    className="w-full aspect-square mb-2 border border-[#1F3D2E]/10"
+                    style={{ backgroundColor: f.hex }}
+                  />
+                  <p className="text-[0.65rem] tracking-wide text-[#1F3D2E]/60">{f.ral ?? f.name}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Powder Coating — Wood Effect */}
+          <div className="mb-16">
+            <p className="label text-[#A9712F] mb-8">
+              Powder Coating — Wood Effect (Interpon D STF)
+            </p>
+            <div className="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-6 gap-4">
+              {woodFinishes.map((f) => (
                 <div key={f.name} className="reveal">
                   <div
                     className="w-full aspect-square mb-2 border border-[#1F3D2E]/10"
