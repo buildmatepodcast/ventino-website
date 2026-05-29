@@ -41,8 +41,8 @@ export default function Header() {
         )}
       >
         <div className="mx-auto max-w-7xl px-6 lg:px-10 flex items-center justify-between h-16 md:h-20">
-          {/* Logo */}
-          <Link href="/" className="flex items-center">
+          {/* Logo + wordmark */}
+          <Link href="/" className="flex items-center gap-3">
             <Image
               src="/images/logo-reversed.png"
               alt="Ventino Doors & Windows"
@@ -51,6 +51,9 @@ export default function Header() {
               className="h-12 md:h-14 w-auto"
               priority
             />
+            <span className="text-[0.6rem] tracking-[0.2em] uppercase text-[#F6F5F0]/80 hidden sm:block">
+              Ventino Windows
+            </span>
           </Link>
 
           {/* Desktop nav */}
