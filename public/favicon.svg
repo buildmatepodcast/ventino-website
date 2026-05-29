@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <rect width="32" height="32" fill="#1F3D2E"/>
+  <!-- Threshold mark: two uprights + lintel + sill -->
+  <rect x="9" y="5" width="2" height="18" fill="#F6F5F0"/>
+  <rect x="21" y="5" width="2" height="18" fill="#F6F5F0"/>
+  <rect x="9" y="5" width="14" height="2" fill="#F6F5F0"/>
+  <rect x="8" y="22" width="16" height="2" fill="#F6F5F0"/>
+  <!-- Brass dot — the glint -->
+  <circle cx="17.5" cy="18" r="1.2" fill="#A9712F"/>
+</svg>

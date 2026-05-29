@@ -1,0 +1,17 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(Get-ChildItem -Recurse \"C:\\\\Users\\\\REKHA AGGARWAL\\\\Desktop\\\\Claude Code Homebase\\\\Ventino Website\\\\Project images\" -File)",
+      "Bash(Select-Object FullName)",
+      "Bash(Measure-Object)",
+      "PowerShell(Get-Command pdftotext -ErrorAction SilentlyContinue)",
+      "PowerShell(Get-Command python -ErrorAction SilentlyContinue)",
+      "PowerShell(Get-Command python3 -ErrorAction SilentlyContinue)",
+      "PowerShell(Get-Command py -ErrorAction SilentlyContinue)",
+      "PowerShell(Get-Command node -ErrorAction SilentlyContinue)",
+      "Bash(ls \"/mnt/c/Users/REKHA AGGARWAL/Desktop/Claude Code Homebase/Ventino Website/public/downloads/\" 2>/dev/null || echo \"NOT FOUND\")",
+      "Bash(ls \"/mnt/c/Users/REKHA AGGARWAL/Desktop/Claude Code Homebase/Ventino Website/support docs/\" 2>/dev/null)",
+      "mcp__Claude_Preview__preview_start"
+    ]
+  }
+}
