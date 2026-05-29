@@ -21,13 +21,11 @@ export default function HomePage() {
           <div className="absolute inset-0 bg-gradient-to-t from-[#1F3D2E] via-[#1F3D2E]/60 to-transparent" />
         </div>
 
-        {/* Brass rule — top left accent */}
-        <div className="absolute top-32 left-6 lg:left-10 flex items-center gap-4">
-          <span className="brass-rule" />
-          <SectionLabel light>ventino windows</SectionLabel>
-        </div>
-
         <div className="relative mx-auto max-w-7xl px-6 lg:px-10 pb-20 md:pb-28 w-full">
+          <div className="flex items-center gap-4 mb-8">
+            <span className="brass-rule" />
+            <SectionLabel light>ventino windows</SectionLabel>
+          </div>
           <h1
             className="font-display text-[clamp(3rem,8vw,7rem)] font-light text-[#F6F5F0] leading-[1.0] mb-8 max-w-4xl"
             style={{ fontFamily: "var(--font-cormorant), Georgia, serif" }}
