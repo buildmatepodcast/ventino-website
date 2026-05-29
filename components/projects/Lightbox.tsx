@@ -59,7 +59,7 @@ export default function Lightbox({ images, startIndex, onClose }: LightboxProps)
         onTouchEnd={(e) => {
           if (touchStartX.current === null) return;
           const diff = touchStartX.current - e.changedTouches[0].clientX;
-          if (Math.abs(diff) > 48) diff > 0 ? next() : prev();
+          if (Math.abs(diff) > 48) { if (diff > 0) next(); else prev(); }
           touchStartX.current = null;
         }}
       >

@@ -61,7 +61,7 @@ export default function ContactPage() {
             ].map(({ label, items }) => (
               <div key={label} className="bg-[#F6F5F0] p-8 lg:p-10">
                 <p className="label text-[#A9712F] mb-5">{label}</p>
-                {items.map(({ value, href, note }) => (
+                {items.map(({ value, href, note }: { type: string; value: string; href: string; note?: string }) => (
                   <div key={value} className="mb-3">
                     <a
                       href={href}
