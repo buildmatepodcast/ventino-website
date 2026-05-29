@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import Image from "next/image";
 import SectionLabel from "@/components/ui/SectionLabel";
 import { productSystems, performancePromises } from "@/data/products";
 import { powderSolidFinishes, woodFinishes, anodisedFinishes } from "@/data/finishes";
@@ -202,10 +203,19 @@ export default function ProductsPage() {
             <div className="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-6 gap-4">
               {woodFinishes.map((f) => (
                 <div key={f.name} className="reveal">
-                  <div
-                    className="w-full aspect-square mb-2 border border-[#1F3D2E]/10"
-                    style={{ backgroundColor: f.hex }}
-                  />
+                  <div className="w-full aspect-square mb-2 border border-[#1F3D2E]/10 overflow-hidden relative">
+                    {f.image ? (
+                      <Image
+                        src={f.image}
+                        alt={f.name}
+                        fill
+                        className="object-cover"
+                        sizes="(max-width: 640px) 33vw, (max-width: 1024px) 25vw, 17vw"
+                      />
+                    ) : (
+                      <div className="w-full h-full" style={{ backgroundColor: f.hex }} />
+                    )}
+                  </div>
                   <p className="text-[0.65rem] tracking-wide text-[#1F3D2E]/60">{f.name}</p>
                 </div>
               ))}

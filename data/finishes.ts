@@ -1,7 +1,8 @@
 export interface Finish {
   name: string;
   hex: string;
-  ral?: string;   // present on solid colours; absent on wood-effect shades
+  ral?: string;    // present on solid colours; absent on wood-effect shades
+  image?: string;  // path relative to /public — used for wood-effect swatches
   range: "powder-solid" | "powder-wood" | "anodised";
 }
 
@@ -39,26 +40,26 @@ export const powderSolidFinishes: Finish[] = [
 // Source: Interpon D STF Color Card (Sublimation Transfer Finish)
 // Names are exactly as printed under each shade card sample in the brochure
 export const woodFinishes: Finish[] = [
-  { name: "Western Red Cedar",  hex: "#8B3A2A", range: "powder-wood" },
-  { name: "Antique Cherry",     hex: "#7B2D2D", range: "powder-wood" },
-  { name: "Australian Cedar",   hex: "#9B5030", range: "powder-wood" },
-  { name: "Warm Cherry",        hex: "#8C3030", range: "powder-wood" },
-  { name: "Tiger Wood",         hex: "#C07840", range: "powder-wood" },
-  { name: "Dark Beige",         hex: "#C8A870", range: "powder-wood" },
-  { name: "Cinnamon Walnut",    hex: "#7B4828", range: "powder-wood" },
-  { name: "Antique Oak",        hex: "#A07848", range: "powder-wood" },
-  { name: "Chestnut",           hex: "#8B4513", range: "powder-wood" },
-  { name: "Walnut",             hex: "#5C3D1E", range: "powder-wood" },
-  { name: "Snow Drift",         hex: "#E8E0D0", range: "powder-wood" },
-  { name: "Pecan",              hex: "#C8904C", range: "powder-wood" },
-  { name: "Pine",               hex: "#C8A878", range: "powder-wood" },
-  { name: "Mahogany Brown",     hex: "#6B2D1E", range: "powder-wood" },
-  { name: "Modern Oak",         hex: "#9B7848", range: "powder-wood" },
-  { name: "Grey V2",            hex: "#8C8880", range: "powder-wood" },
-  { name: "Classic Grey",       hex: "#7A7870", range: "powder-wood" },
-  { name: "Merbau",             hex: "#5C3018", range: "powder-wood" },
-  { name: "Birch Grey",         hex: "#A8A098", range: "powder-wood" },
-  { name: "Natural Brown",      hex: "#8C6040", range: "powder-wood" },
+  { name: "Western Red Cedar",  hex: "#8B3A2A", image: "/finishes/wood/western-red-cedar.jpg",  range: "powder-wood" },
+  { name: "Antique Cherry",     hex: "#7B2D2D", image: "/finishes/wood/antique-cherry.jpg",      range: "powder-wood" },
+  { name: "Australian Cedar",   hex: "#9B5030", image: "/finishes/wood/australian-cedar.jpg",    range: "powder-wood" },
+  { name: "Warm Cherry",        hex: "#8C3030", image: "/finishes/wood/warm-cherry.jpg",         range: "powder-wood" },
+  { name: "Tiger Wood",         hex: "#C07840", image: "/finishes/wood/tiger-wood.jpg",          range: "powder-wood" },
+  { name: "Dark Beige",         hex: "#C8A870", image: "/finishes/wood/dark-beige.jpg",          range: "powder-wood" },
+  { name: "Cinnamon Walnut",    hex: "#7B4828", image: "/finishes/wood/cinnamon-walnut.jpg",     range: "powder-wood" },
+  { name: "Antique Oak",        hex: "#A07848", image: "/finishes/wood/antique-oak.jpg",         range: "powder-wood" },
+  { name: "Chestnut",           hex: "#8B4513", image: "/finishes/wood/chestnut.jpg",            range: "powder-wood" },
+  { name: "Walnut",             hex: "#5C3D1E", image: "/finishes/wood/walnut.jpg",              range: "powder-wood" },
+  { name: "Snow Drift",         hex: "#E8E0D0", image: "/finishes/wood/snow-drift.jpg",          range: "powder-wood" },
+  { name: "Pecan",              hex: "#C8904C", image: "/finishes/wood/pecan.jpg",               range: "powder-wood" },
+  { name: "Pine",               hex: "#C8A878", image: "/finishes/wood/pine.jpg",                range: "powder-wood" },
+  { name: "Mahogany Brown",     hex: "#6B2D1E", image: "/finishes/wood/mahogany-brown.jpg",      range: "powder-wood" },
+  { name: "Modern Oak",         hex: "#9B7848", image: "/finishes/wood/modern-oak.jpg",          range: "powder-wood" },
+  { name: "Grey V2",            hex: "#8C8880", image: "/finishes/wood/grey-v2.jpg",             range: "powder-wood" },
+  { name: "Classic Grey",       hex: "#7A7870", image: "/finishes/wood/classic-grey.jpg",        range: "powder-wood" },
+  { name: "Merbau",             hex: "#5C3018", image: "/finishes/wood/merbau.jpg",              range: "powder-wood" },
+  { name: "Birch Grey",         hex: "#A8A098", image: "/finishes/wood/birch-grey.jpg",          range: "powder-wood" },
+  { name: "Natural Brown",      hex: "#8C6040", image: "/finishes/wood/natural-brown.jpg",       range: "powder-wood" },
 ];
 
 // ─── Anodising ───────────────────────────────────────────────────────────────
